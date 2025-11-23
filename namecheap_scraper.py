@@ -39,7 +39,18 @@ logger = logging.getLogger(__name__)
 
 
 class NamecheapScraper:
-    """Scraper for Namecheap expired and marketplace domains."""
+    """
+    Scraper for Namecheap expired and marketplace domains.
+    
+    NOTE: This is a TEMPLATE IMPLEMENTATION that generates sample data.
+    For production use, you must:
+    1. Use the official Namecheap API (requires API key)
+    2. Use authorized domain marketplace APIs
+    3. Comply with Namecheap Terms of Service
+    
+    The current implementation demonstrates the structure and workflow
+    but does not perform actual web scraping.
+    """
     
     BASE_URL = "https://www.namecheap.com"
     MARKETPLACE_URL = f"{BASE_URL}/marketplace/browse"
@@ -91,9 +102,11 @@ class NamecheapScraper:
             logger.info(f"Found {len(domains)} domains under ${self.max_price}")
             
         except requests.RequestException as e:
-            logger.error(f"Error fetching domains: {e}")
+            logger.error(f"Error fetching domains (network/HTTP error): {e}")
+        except (ValueError, KeyError) as e:
+            logger.error(f"Error parsing domain data: {e}")
         except Exception as e:
-            logger.error(f"Unexpected error: {e}")
+            logger.error(f"Unexpected error of type {type(e).__name__}: {e}")
             
         return domains
     

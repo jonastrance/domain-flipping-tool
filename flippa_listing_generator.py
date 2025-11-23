@@ -162,8 +162,14 @@ def load_domains_from_csv(filename: str) -> List[Dict]:
     except FileNotFoundError:
         print(f"Error: File '{filename}' not found")
         sys.exit(1)
+    except csv.Error as e:
+        print(f"Error parsing CSV file: {e}")
+        sys.exit(1)
+    except UnicodeDecodeError as e:
+        print(f"Error reading file (encoding issue): {e}")
+        sys.exit(1)
     except Exception as e:
-        print(f"Error reading CSV: {e}")
+        print(f"Unexpected error of type {type(e).__name__}: {e}")
         sys.exit(1)
     
     return domains
